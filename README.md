@@ -1,8 +1,9 @@
-# r2auto_nav
-ROS2 Code for EG2310, AY22/23 Sem2
+# ROS2 Code for EG2310, AY22/23 Sem2 by Group 11
 
 This is Group 11's repository for EG2310. Here we attempt to modify a TurtleBot3 to navigate through a restaurant to deliver a can it receives from a dispenser to a certain table.
 
+## What's in this repo
+This repository contains all the code used for the mission in EG2310. The directory tree on the ubuntu laptop to control the TurtleBot and the RPi on the TurtleBot is also included below for reference. For this project, the RPi version used was RPi 3B+ and the microcontroller used for the dispenser was DOIT ESP32 Devkit V1 Board. The software, hardware, and steps required to replicate the working TurtleBot is explained in detail in the report. 
 
 ## Prerequisites
 
