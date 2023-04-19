@@ -30,14 +30,14 @@ import time
 import json
 
 # constants
-DOCK_DISTANCE = 0.277
-ROTATECHANGE = 0.4
-SPEEDCHANGE = 0.175
-ANGLE_THRESHOLD = 0.8
-STOP_DISTANCE = 0.06
-RECALIBRATE = 0.6
-FRONT_ANGLE = 23
-FRONT_ANGLES = range(-FRONT_ANGLE,FRONT_ANGLE+1,1)
+DOCK_DISTANCE = 0.277 # distance until TurtleBot stops for docking 
+ROTATECHANGE = 0.4 # speed of rotation
+SPEEDCHANGE = 0.175 # speed of movement
+ANGLE_THRESHOLD = 0.8 # angle acceptance threshold
+STOP_DISTANCE = 0.06 # distance stopping threshold
+RECALIBRATE = 0.6 # distance travelled to recalibrate angle towards waypoint
+FRONT_ANGLE = 23 # front angles used in detecting table 6
+FRONT_ANGLES = range(-FRONT_ANGLE,FRONT_ANGLE+1,1) # first 23 degrees and last 23 degrees
 
 WP_FILE = "waypoints.json"
 F = open(WP_FILE, 'r+')
