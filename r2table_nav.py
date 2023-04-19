@@ -31,7 +31,6 @@ import json
 
 # constants
 DOCK_DISTANCE = 0.277
-DOCK_DISTANCE_CAN = 0.17 # if can is always loaded beforehand
 ROTATECHANGE = 0.4
 SPEEDCHANGE = 0.175
 ANGLE_THRESHOLD = 0.8
@@ -39,6 +38,7 @@ STOP_DISTANCE = 0.06
 RECALIBRATE = 0.6
 FRONT_ANGLE = 23
 FRONT_ANGLES = range(-FRONT_ANGLE,FRONT_ANGLE+1,1)
+
 WP_FILE = "waypoints.json"
 F = open(WP_FILE, 'r+')
 EXISTING_WAYPOINTS = json.load(F)
@@ -128,7 +128,7 @@ class TableNav(Node):
         self.roll, self.pitch, self.yaw = euler_from_quaternion(msg.orientation.x, msg.orientation.y, msg.orientation.z, msg.orientation.w)
     
 
-    # function to rotate the TurtleBot
+    # function to rotate the TurtleBot using complex number calculations
     def rotatebot(self, rot_angle):
         # self.get_logger().info('In rotatebot')
         # create Twist object
@@ -186,6 +186,7 @@ class TableNav(Node):
         # stop the rotation
         self.publisher_.publish(twist)
 
+    # angle_to returns the distance between the turtlebot and the waypoint parameter using pythagoras theorem.
     def distance_to(self, goal):
         rclpy.spin_once(self) 
         x_diff = goal['x'] - self.mapbase.x
@@ -202,6 +203,7 @@ class TableNav(Node):
             return self.distance_to(goal)
         return distance
             
+    # angle_to calculuates the angle the turtlebot has to rotate to face the waypoint paramater
     def angle_to(self, goal):
         rclpy.spin_once(self)
         x_diff = goal['x'] - self.mapbase.x
@@ -211,6 +213,7 @@ class TableNav(Node):
         self.get_logger().info('Angle difference: %f' % angle_diff)
         return angle_diff
     
+    # rotate_to_goal rotates towards the waypoint parameter
     def rotate_to_goal(self, goal):
         twist = Twist()
         twist.linear.x = 0.0
@@ -249,6 +252,8 @@ class TableNav(Node):
         if (break_flag):
             self.rotate_to_goal(goal)
 
+
+    # rotate_to is similar to rotatebot but with higher accuracy which makes it slower
     def rotate_to(self, degree):
         twist = Twist()
         twist.linear.x = 0.0
@@ -290,8 +295,6 @@ class TableNav(Node):
             rclpy.spin_once(self) 
             self.get_logger().info('Current waypoint target: %d' % index)
             self.rotate_to_goal(waypoint)
-            #self.rotatebot(self.angle_to(waypoint) - math.degrees(self.yaw))
-            #self.rotate_to_angle(waypoint)
             rclpy.spin_once(self) 
             twist.linear.x = SPEEDCHANGE
             twist.angular.z = 0.0
@@ -301,6 +304,7 @@ class TableNav(Node):
 
             travelled = 0
             while (self.waypointDistance > STOP_DISTANCE) :
+                # Slow down when near waypoint
                 if(self.waypointDistance <= 2.5 * STOP_DISTANCE and twist.linear.x == SPEEDCHANGE):
                     twist.linear.x = 0.25 * SPEEDCHANGE
                 twist.angular.z = 0.0
@@ -312,9 +316,7 @@ class TableNav(Node):
                 self.get_logger().info('distance: %s' % str(self.waypointDistance))
                 self.get_logger().info('travelled: %s' % str(travelled))
                 if (travelled > RECALIBRATE): 
-                    #self.rotate_to_goal(waypoint) 
                     self.rotatebot(self.angle_to(waypoint) - math.degrees(self.yaw))
-                    #self.rotate_to_angle(waypoint) 
                     travelled = 0
         
         if(table_number == "6"):
@@ -327,22 +329,6 @@ class TableNav(Node):
                 if(self.laser_range[angle] < min_distance):
                     min_degree = angle
                     min_distance = self.laser_range[angle]
-            '''
-            while(not math.isnan(min_degree)):
-                for angle in FRONT_ANGLES:
-                    self.get_logger().info('%d, %f' % (angle, self.laser_range[angle]))
-                    if(self.laser_range[angle] < min_distance):
-                        min_degree = angle
-            combined_ranges = np.concatenate((self.laser_range[0:23], self.laser_range[-23:]), axis=None)
-            while(math.isnan(combined_ranges[0])):
-                rclpy.spin_once(self)
-                combined_ranges = np.concatenate((self.laser_range[0:23], self.laser_range[-23:]), axis=None)
-            min_index = np.argmin(combined_ranges)
-            if min_index < 23:
-                degree = min_index
-            else:
-                degree = - (23 - min_index)
-            '''
             self.rotate_to(min_degree)
             twist.linear.x = SPEEDCHANGE
             twist.angular.z = 0.0
@@ -350,18 +336,6 @@ class TableNav(Node):
             while (self.laser_range[0] > DOCK_DISTANCE + 0.02 or math.isnan(self.laser_range[0])):
                 rclpy.spin_once(self) 
                 if(self.laser_range[0] <= 2.5 * DOCK_DISTANCE and twist.linear.x == SPEEDCHANGE):
-
-                    # repeat calibration
-                    '''
-                    min_distance= 10000;
-                    min_degree = 360
-                    for angle in FRONT_ANGLES:
-                        self.get_logger().info('%d, %f' % (angle, self.laser_range[angle]))
-                        if(self.laser_range[angle] < min_distance):
-                            min_degree = angle
-                            min_distance = self.laser_range[angle]
-                    self.rotate_to(min_degree)
-                    '''
                     twist.linear.x = 0.25 * SPEEDCHANGE
                     self.publisher_.publish(twist)
                 self.get_logger().info('laser_range[0]: %s' % str(self.laser_range[0]))
@@ -389,6 +363,7 @@ class TableNav(Node):
 
             travelled = 0
             while (self.waypointDistance > STOP_DISTANCE) :
+                # Slow down when near waypoint
                 if(self.waypointDistance <= 2.5 * STOP_DISTANCE and twist.linear.x == SPEEDCHANGE):
                     twist.linear.x = 0.25 * SPEEDCHANGE
                 twist.angular.z = 0.0
@@ -418,15 +393,6 @@ class TableNav(Node):
                 self.get_logger().info('laser_range[0]: %s' % str(self.laser_range[0]))
                 self.get_logger().info('dock count: %s' % str(dock_count))
                 dock_count += 1
-            '''
-        if (self.mapbase.x <= EXISTING_WAYPOINTS["1"][0]["x"]):
-            twist.linear.x = 0.025
-            twist.angular.z = 0.0
-            self.publisher_.publish(twist)
-            while (self.laser_range[0] > DOCK_DISTANCE_CAN or math.isnan(self.laser_range[0])):
-                self.get_logger().info('docking with can')
-                rclpy.spin_once(self)
-            '''
         twist.linear.x = 0.0
         twist.angular.z = 0.0
         self.publisher_.publish(twist)
