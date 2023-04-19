@@ -31,12 +31,12 @@ import json
 
 # constants
 DOCK_DISTANCE = 0.277 # distance until TurtleBot stops for docking 
-ROTATECHANGE = 0.4 # speed of rotation
-SPEEDCHANGE = 0.175 # speed of movement
+ROTATE_CHANGE = 0.4 # speed of rotation
+SPEED_CHANGE = 0.175 # speed of movement
 ANGLE_THRESHOLD = 0.8 # angle acceptance threshold
 STOP_DISTANCE = 0.06 # distance stopping threshold
 RECALIBRATE = 0.6 # distance travelled to recalibrate angle towards waypoint
-FRONT_ANGLE = 23 # front angles used in detecting table 6
+FRONT_ANGLE = 23 # angles used in detecting table 6, first 23 and last 23 degrees from the front of the TurtleBot
 FRONT_ANGLES = range(-FRONT_ANGLE,FRONT_ANGLE+1,1) # first 23 degrees and last 23 degrees
 
 WP_FILE = "waypoints.json"
@@ -156,7 +156,7 @@ class TableNav(Node):
         twist.linear.x = 0.0
         print("linear.x = 0")
         # set the direction to rotate
-        twist.angular.z = c_change_dir * ROTATECHANGE
+        twist.angular.z = c_change_dir * ROTATE_CHANGE
         print("c_change_dir: " + str(c_change_dir))
         # start rotation
         self.publisher_.publish(twist)
@@ -230,16 +230,16 @@ class TableNav(Node):
         self.get_logger().info('curr diff : %f' % diff)
 
         if (diff > 0):
-            twist.angular.z += ROTATECHANGE
+            twist.angular.z += ROTATE_CHANGE
         else:
-            twist.angular.z -= ROTATECHANGE
+            twist.angular.z -= ROTATE_CHANGE
 
         self.publisher_.publish(twist)
         min_angle = abs(math.degrees(self.yaw) - curr_angle_diff)
         break_flag = False
         while (abs(math.degrees(self.yaw) - curr_angle_diff) > ANGLE_THRESHOLD):
             self.get_logger().info('curr diff : %f' %  abs(math.degrees(self.yaw) - curr_angle_diff))
-            if (abs(math.degrees(self.yaw) - curr_angle_diff) < 10 and abs(twist.angular.z) == ROTATECHANGE):
+            if (abs(math.degrees(self.yaw) - curr_angle_diff) < 10 and abs(twist.angular.z) == ROTATE_CHANGE):
                 twist.angular.z = twist.angular.z * 0.25  
             min_angle = min(abs(math.degrees(self.yaw) - curr_angle_diff), min_angle)
             if (min_angle < abs(math.degrees(self.yaw) - curr_angle_diff)):
@@ -269,14 +269,14 @@ class TableNav(Node):
         # self.get_logger().info('Current angle diff: %f' % curr_angle_diff)
 
         if (degree > 0):
-            twist.angular.z += ROTATECHANGE
+            twist.angular.z += ROTATE_CHANGE
         else:
-            twist.angular.z -= ROTATECHANGE
+            twist.angular.z -= ROTATE_CHANGE
         self.publisher_.publish(twist)
 
         self.get_logger().info('degree: %s' % str(degree))
         while (abs(desired_position - math.degrees(self.yaw)) > ANGLE_THRESHOLD):
-            if(abs(desired_position - math.degrees(self.yaw)) <= 10 and twist.angular.z == ROTATECHANGE):
+            if(abs(desired_position - math.degrees(self.yaw)) <= 10 and twist.angular.z == ROTATE_CHANGE):
                 twist.angular.z = 0.25 * twist.angular.z
                 self.publisher_.publish(twist)
             self.get_logger().info('desired - yaw: %s' % str(abs(desired_position - math.degrees(self.yaw))))
@@ -285,7 +285,7 @@ class TableNav(Node):
     def moveToTable(self, table_number):
         twist = Twist()
         table_number = str(table_number)
-        twist.linear.x = -SPEEDCHANGE
+        twist.linear.x = -SPEED_CHANGE
         twist.angular.z = 0.0
         self.publisher_.publish(twist)
         time.sleep(0.3)
@@ -296,7 +296,7 @@ class TableNav(Node):
             self.get_logger().info('Current waypoint target: %d' % index)
             self.rotate_to_goal(waypoint)
             rclpy.spin_once(self) 
-            twist.linear.x = SPEEDCHANGE
+            twist.linear.x = SPEED_CHANGE
             twist.angular.z = 0.0
             self.publisher_.publish(twist)
             self.waypointDistance = self.distance_to(waypoint)
@@ -305,8 +305,8 @@ class TableNav(Node):
             travelled = 0
             while (self.waypointDistance > STOP_DISTANCE) :
                 # Slow down when near waypoint
-                if(self.waypointDistance <= 2.5 * STOP_DISTANCE and twist.linear.x == SPEEDCHANGE):
-                    twist.linear.x = 0.25 * SPEEDCHANGE
+                if(self.waypointDistance <= 2.5 * STOP_DISTANCE and twist.linear.x == SPEED_CHANGE):
+                    twist.linear.x = 0.25 * SPEED_CHANGE
                 twist.angular.z = 0.0
                 self.publisher_.publish(twist)
                 distance = self.distance_to(waypoint)
@@ -330,13 +330,13 @@ class TableNav(Node):
                     min_degree = angle
                     min_distance = self.laser_range[angle]
             self.rotate_to(min_degree)
-            twist.linear.x = SPEEDCHANGE
+            twist.linear.x = SPEED_CHANGE
             twist.angular.z = 0.0
             self.publisher_.publish(twist)
             while (self.laser_range[0] > DOCK_DISTANCE + 0.02 or math.isnan(self.laser_range[0])):
                 rclpy.spin_once(self) 
-                if(self.laser_range[0] <= 2.5 * DOCK_DISTANCE and twist.linear.x == SPEEDCHANGE):
-                    twist.linear.x = 0.25 * SPEEDCHANGE
+                if(self.laser_range[0] <= 2.5 * DOCK_DISTANCE and twist.linear.x == SPEED_CHANGE):
+                    twist.linear.x = 0.25 * SPEED_CHANGE
                     self.publisher_.publish(twist)
                 self.get_logger().info('laser_range[0]: %s' % str(self.laser_range[0]))
         twist.linear.x = 0.0
@@ -356,7 +356,7 @@ class TableNav(Node):
             #self.rotate_to_goal(waypoint)
             rclpy.spin_once(self) 
             self.waypointDistance = self.distance_to(waypoint)
-            twist.linear.x = SPEEDCHANGE
+            twist.linear.x = SPEED_CHANGE
             twist.angular.z = 0.0
             self.publisher_.publish(twist)
             print('published twist')
@@ -364,8 +364,8 @@ class TableNav(Node):
             travelled = 0
             while (self.waypointDistance > STOP_DISTANCE) :
                 # Slow down when near waypoint
-                if(self.waypointDistance <= 2.5 * STOP_DISTANCE and twist.linear.x == SPEEDCHANGE):
-                    twist.linear.x = 0.25 * SPEEDCHANGE
+                if(self.waypointDistance <= 2.5 * STOP_DISTANCE and twist.linear.x == SPEED_CHANGE):
+                    twist.linear.x = 0.25 * SPEED_CHANGE
                 twist.angular.z = 0.0
                 self.publisher_.publish(twist)
                 distance = self.distance_to(waypoint)
