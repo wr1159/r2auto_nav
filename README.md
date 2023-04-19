@@ -18,8 +18,40 @@ This is Group 11's repository for EG2310. Here we attempt to modify a TurtleBot3
 2. Follow [this guide](https://ask.wingware.com/question/3/i2c-problem-with-remote-raspberry-pi/) to allow RPi I2C. 
 3. //TODO follow guide to install MQTT
 
+## Directory Tree on Ubuntu Laptop
+```
+colcon_ws
+├── build
+├── install
+├── log
+└── src
+     └── auto_nav
+        ├── package.xml
+        ├── setup.cfg
+        ├── setup.py
+        └── auto_nav
+            ├── __init__.py
+            ├── map2base.py
+            ├── waypoints.json
+            ├── r2waypoints.py
+            └── r2table_nav.py
+```
 
-
+## Directory Tree on TurtleBot
+```
+turtlebot_ws
+├── build
+├── install
+├── log
+└── src
+    └── hardware-bringup
+        ├── package.xml
+        ├── setup.cfg
+        ├── setup.py
+        └── sensors
+            ├── __init__.py
+            └── swtichpub.py
+```
 ## System Test
 Run the following commands in different terminals to test the turtlebot.
 
