@@ -1,5 +1,5 @@
 /* Program used to take user input from 4x4 matrix keypad and output it to OLED using ESP32 board */
-/* Also, sends the number to the database */ 
+/* Also, sends the number to the mqtt network */ 
 #include "Keypad.h"
 #include "Arduino.h"
 #include <WiFi.h>
@@ -52,37 +52,6 @@ Adafruit_SSD1306 display = Adafruit_SSD1306(128, 64, &Wire, -1);
 /*initialise keypad*/
 Keypad keypad = Keypad(makeKeymap(keys), pin_rows, pin_column, ROWS, COLS); // instantiating a keypad object 
 
-/* callback function for mqtt connection- called when a new message is received
- * for a topic that we're subscribed to.*/
-void mqtt_cb(char* topic, uint8_t *msg, uint32_t len){
-  Serial.print("Message arrived on topic: ");
-  Serial.print(topic);
-  Serial.print(". Message: ");
-  String msgAngle;
-  
-  for (int i = 0; i < len; i++) {
-    Serial.print((char)msg[i]);
-    msgAngle += (char)msg[i];
-  }
-  Serial.println();
-
-  // Feel free to add more if statements to control more GPIOs with MQTT
-
-  // Changes the output state according to the message
-  if (String(topic) == "topic name") { //TODO: change topic name to RPi's NFC status
-    Serial.print("Changing servo position...");
-    if(msgAngle == "arrive"){
-      Serial.println("original");
-      // MG995_Servo.write(0);
-      delay(200);
-    }
-    else if(msgAngle == "away"){
-      Serial.println("open");
-      // MG995_Servo.write(270);
-      delay(200);
-    }
-  }
-}
 
 /* handle a reconnect to the broker if the connection is dropped */
 void mqtt_reconnect(void){
@@ -159,7 +128,6 @@ void setup() {
 
   /* initialize (but don't connect yet) to the MQTT broker */
   mqtt_client.setServer(broker_ip, 1883);
-  mqtt_client.setCallback(mqtt_cb);
   MG995_Servo.attach(Servo_PWM, 771, 2470);
   MG995_Servo.write(30);
 
@@ -187,10 +155,8 @@ void loop() {
 
       //Sending topic to RPi
       mqtt_client.publish("ESP32/tableNumber", input_num.c_str());
-      // MG995_Servo.write(70);
       MG995_Servo.write(100);
       delay(5000);
-      // MG995_Servo.write(140);
       MG995_Servo.write(30);
       input_num = "";
       clearDisplay();
