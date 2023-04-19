@@ -71,27 +71,28 @@ Run the following commands in different terminals
 ### Turtlebot Bringup
 ```
   ssh ubuntu@(ip-address-of-pi)
-  roslaunch turtlebot3_bringup turtlebot3_robot.launch
+  rosbu
+```
+### Run Limit Switch Publisher
+```
+  ssh ubuntu@(ip-address-of-pi)
+  switchpub
 ```
 ### Run Cartographer
 ```
-  ros2 launch turtlebot3_cartographer cartographer.launch.py
+  rslam
 ```
 ### Run Map2Base publisher
 ```
-  ros2 run auto_nav map2base
-```
-### Run TableNumber publisher
-```
-  ros2 run auto_nav tableNumber
+  map2base
 ```
 ### Control the turtlebot to store waypoints
 ```
-  ros2 run auto_nav r2waypoints
+  r2waypoints
 ```
 ### Run Master Script
 ```
-  ros2 run auto_nav master_nav
+  tablenav
 ```
 
 
