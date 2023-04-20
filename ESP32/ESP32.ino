@@ -59,8 +59,6 @@ void mqtt_reconnect(void){
         Serial.printf("Connecting to broker '%s'...", broker_ip);
         if(mqtt_client.connect("R&D #")){
             Serial.println("CONNECTED");
-            //subscribe
-            mqtt_client.subscribe("topic name"); //TODO: change topic name to RPi's NFC topic
         }
         else{
             Serial.println("FAILED:");
