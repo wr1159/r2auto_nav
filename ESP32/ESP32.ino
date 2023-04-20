@@ -23,7 +23,6 @@ WiFiClient wifi_client;
 PubSubClient mqtt_client(wifi_client);
 Servo MG995_Servo; 
 
-
 /*Setting up the oled*/
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
 #define SCREEN_HEIGHT 64 // OLED display height, in pixels
@@ -126,6 +125,7 @@ void setup() {
 
   /* initialize (but don't connect yet) to the MQTT broker */
   mqtt_client.setServer(broker_ip, 1883);
+  
   MG995_Servo.attach(Servo_PWM, 771, 2470);
   MG995_Servo.write(30);
 
@@ -145,7 +145,7 @@ void loop() {
   while (key){ 
     if (key == '*'){
       clearDisplay();
-      input_num = ""; //clear password
+      input_num = ""; //clear tableNumber
     }
     else if (key == '#'){
       Serial.print("Input number: ");
