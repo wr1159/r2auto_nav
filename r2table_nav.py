@@ -151,7 +151,8 @@ class TableNav(Node):
         # get the sign of the imaginary component to figure out which way we have to turn
         c_change_dir = np.sign(c_change.imag)
         print("c_change_dir: " + str(c_change_dir))
-        # set linear speed to zero so the TurtleBot rotates on the spot
+        # set linear speed to zero so the TurtleBot rotat
+        es on the spot
         twist.linear.x = 0.0
         print("linear.x = 0")
         # set the direction to rotate
@@ -345,7 +346,6 @@ class TableNav(Node):
     def returnFromTable(self, table_number):
         twist = Twist()
         table_number = str(table_number)
-        global STOP_DISTANCE
         for index, waypoint in enumerate(EXISTING_WAYPOINTS[table_number][-2::-1]): 
 
             rclpy.spin_once(self) 
