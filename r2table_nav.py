@@ -46,7 +46,6 @@ IP_ADDRESS = "172.20.10.5"
 
 
 table_number = -1
-next_table_num = -1
 # code from https://automaticaddison.com/how-to-convert-a-quaternion-into-euler-angles-in-python/
 def euler_from_quaternion(x, y, z, w):
     """
@@ -410,7 +409,6 @@ class TableNav(Node):
                 self.returnFromTable(table_number)
                 '''
                 global table_number
-                global next_table_num
 
                 self.get_logger().info("self.switch state: %s" % str(self.switch))
                 self.get_logger().info("table_number: %s" % str(table_number))
@@ -425,14 +423,8 @@ class TableNav(Node):
                         rclpy.spin_once(self)
                     # return to dispenser
                     self.returnFromTable(table_number)
-                    # take next table number if available
-                    # else reset to -1
-                    if (next_table_num != -1):
-                        table_number = next_table_num
-                        next_table_number = -1
-                    # else reset to -1
-                    else:
-                        table_number = -1
+                    # reset table_num to -1
+                    table_number = -1
  
         except Exception as e:
             print(e) 
@@ -445,16 +437,11 @@ class TableNav(Node):
 
 def on_table_num(client, userdata, msg):
     global table_number 
-    global next_table_num
     if (msg.payload.decode('utf-8') != ""):
         val = int(msg.payload.decode('utf-8'))
         if(val >= 1 and val <= 6):
-            if(table_number != -1):
-                next_table_num = val
-            else:
-                table_number= val
+            table_number = val
     print(table_number) 
-    print(next_table_num) 
 
 def main(args=None):
     rclpy.init(args=args)
@@ -466,10 +453,6 @@ def main(args=None):
     client.subscribe("ESP32/tableNumber", qos=2)
     table_nav = TableNav()
     table_nav.move()
-
-    # create matplotlib figure
-    # plt.ion()
-    # plt.show()
 
     # Destroy the node explicitly
     # (optional - otherwise it will be done automatically
