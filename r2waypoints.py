@@ -83,8 +83,6 @@ class Mover(Node):
         self.roll = 0
         self.pitch = 0
         self.yaw = 0
-        self.x_coord = 0
-        self.y_coord = 0
         self.mapbase = []
     
     def map2base_callback(self, msg):
