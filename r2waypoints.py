@@ -77,12 +77,6 @@ class Mover(Node):
             self.odom_callback,
             10)
         # self.get_logger().info('Created subscriber')
-
-        self.map_subscription = self.create_subscription(
-            OccupancyGrid,
-            'map',
-            self.map_callback,
-            qos_profile_sensor_data)
     
         self.map2base_sub = self.create_subscription(
             Pose,
@@ -91,7 +85,6 @@ class Mover(Node):
             1)
 
         self.odom_subscription  # prevent unused variable warning
-        self.map_subscription # prevent unused variable warning
         self.map2base_sub # prevent unused variable warning
         # initialize variables
         self.roll = 0
@@ -113,13 +106,6 @@ class Mover(Node):
         #self.roll, self.pitch, self.yaw = euler_from_quaternion(orientation_quat.x, orientation_quat.y, orientation_quat.z, orientation_quat.w)
         #print("end odom")
     
-    def map_callback(self, msg): 
-        #print('map_callback')
-        #print(msg)
-        # not using for now since using map2base
-        position_coords =  msg.info.origin.position
-        #self.x_coord = position_coords.x 
-        #self.y_coord = position_coords.y
     
     def map2base_callback(self, msg):
         # self.get_logger().info('In map2basecallback')
