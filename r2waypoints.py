@@ -71,20 +71,13 @@ class Mover(Node):
         super().__init__('moverotate')
         self.publisher_ = self.create_publisher(Twist,'cmd_vel',10)
         # self.get_logger().info('Created publisher')
-        self.odom_subscription = self.create_subscription(
-            Odometry,
-            'odom',
-            self.odom_callback,
-            10)
-        # self.get_logger().info('Created subscriber')
     
         self.map2base_sub = self.create_subscription(
             Pose,
             'map2base',
             self.map2base_callback,
             1)
-
-        self.odom_subscription  # prevent unused variable warning
+        # self.get_logger().info('Created subscriber')
         self.map2base_sub # prevent unused variable warning
         # initialize variables
         self.roll = 0
@@ -93,19 +86,6 @@ class Mover(Node):
         self.x_coord = 0
         self.y_coord = 0
         self.mapbase = []
-
-
-    # function to set the class variables using the odometry information
-    def odom_callback(self, msg):
-        #print('odom_callback')
-        #self.get_logger().info(msg)
-        #self.get_logger().info('In odom_callback')
-        #print("orientation_quat")
-        orientation_quat =  msg.pose.pose.orientation
-        #print("quternion")
-        #self.roll, self.pitch, self.yaw = euler_from_quaternion(orientation_quat.x, orientation_quat.y, orientation_quat.z, orientation_quat.w)
-        #print("end odom")
-    
     
     def map2base_callback(self, msg):
         # self.get_logger().info('In map2basecallback')
