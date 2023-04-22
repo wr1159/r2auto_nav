@@ -53,15 +53,6 @@ turtlebot_ws
             ├── __init__.py
             └── swtichpub.py
 ```
-## System Test
-Run the following commands in different terminals to test the turtlebot.
-
-### //TODO
-  //TODO
-### //TODO
-  //TODO
-### //TODO
-  //TODO
 
 ## Start the mission 
 ENSURE that the ip address in the ESP32 and TableNumber.py is what is displayed by the broker in terminal after running.
@@ -74,7 +65,7 @@ Run the following commands in different terminals
   ssh ubuntu@(ip-address-of-pi)
   rosbu
 ```
-### Run Limit Switch Publisher
+### Run Micro Limit Switch Publisher
 ```
   ssh ubuntu@(ip-address-of-pi)
   switchpub
