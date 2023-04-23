@@ -18,10 +18,6 @@ View section 8.4 - Algorithm Overview of the final report for a detailed breakdo
 * [ESP32/ESP32.ino](ESP32/ESP32.ino) is a ESP32 program that controls the Dispenser with functions that Display Input, Send input through MQTT, Rotate Servo Motor.
 
 ## Dependencies
-### RPi
-* [ROS 2 Foxy](https://docs.ros.org/en/foxy/Installation.html)
-* [RPi.GPIO](https://pypi.org/project/RPi.GPIO/)
-* [MQTT 2.0](https://mosquitto.org/download/)
 
 ### Dispenser
 * [Adafruit GFX](https://github.com/adafruit/Adafruit-GFX-Library) by Adafruit
@@ -29,6 +25,17 @@ View section 8.4 - Algorithm Overview of the final report for a detailed breakdo
 * [ESP32Servo](https://github.com/adafruit/Adafruit_SSD1306) by Kevin Harrington, John K. Bennett
 * [Keypad](http://playground.arduino.cc/Code/Keypad) by Mark Stanley, Alexander Brevig
 * [PubSubClient](https://pubsubclient.knolleary.net/) by Nick O’Leary
+
+### Remote Laptop
+* [ROS 2 Foxy](https://docs.ros.org/en/foxy/Installation.html)
+* [Paho MQTT Client](https://pypi.org/project/paho-mqtt/)
+
+### RPi
+* [ROS 2 Foxy](https://docs.ros.org/en/foxy/Installation.html)
+* [RPi.GPIO](https://pypi.org/project/RPi.GPIO/)
+* [MQTT 2.0](https://mosquitto.org/download/)
+
+
 
 ## Directory Tree on Ubuntu Laptop
 ```
