@@ -5,19 +5,17 @@ This is Group 11's repository for EG2310. Here we attempt to modify a TurtleBot3
 ## What's in this repo
 This repository contains all the code used for the mission in EG2310. The directory tree on the ubuntu laptop to control the TurtleBot and the RPi on the TurtleBot is also included below for reference. For this project, the RPi version used was RPi 3B+ and the microcontroller used for the dispenser was DOIT ESP32 Devkit V1 Board. The software, hardware, and steps required to replicate the working TurtleBot is explained in detail in the report. 
 
-## Prerequisites
+Follow Section 8 - Assembly of the final report before proceeding with [starting the mission](#start-the-mission). 
 
-### Access to the following
-1. Have access to a computer with Ubuntu 20.04 installed. A dual boot Linux is recommended but a virtual machine will suffice too. 
-1.1 For those with M series Macbook, you can follow [this tutorial](https://www.youtube.com/watch?v=suntoEurFio) to install Ubuntu onto your mac. Make sure to allocate 40GB. 35GB will barely scrape through.
-2. Have access to a TurtleBot3 kit. 
-2.1 Have the ability to ssh into the TurtleBot3 RPi.
-3. Have access to an ESP32.
+## Important Files
+View section 8.4 - Algorithm Overview of the final report for a detailed breakdown for the program.
 
-### Make sure you have done the following before proceeding with the testing and the mission.
-1. Follow [the TurtleBot3 manual](https://emanual.robotis.com/docs/en/platform/turtlebot3/quick-start/) **(Make sure to select Foxy.)** to install Ros2 and other relevant packages onto your linux computer. You can stop once you are able to teleoperate the turtlebot from your computer.
-2. Follow [this guide](https://ask.wingware.com/question/3/i2c-problem-with-remote-raspberry-pi/) to allow RPi I2C. 
-3. //TODO follow guide to install MQTT
+[r2table_nav](r2table_nav.py) is the master program that controls the TurtleBot during the delivery mission, completing the 4 Phases of Dispense, Delivery, Collection and Return.
+[r2waypoints](r2waypoints.py) is the program that allows the users to set waypoints in case of an altered layout.
+[waypoints.json](waypoints.json) is the json file that stores the waypoints for each table.
+[map2base.py](map2base.py) is a publisher program that publishes a Pose message to locate the TurtleBot relative to the starting position.
+[switchpub.py](switchpub.py) is a publisher program running on the RPi that publishes the state of the microswitch.
+[ESP32/ESP32.ino](ESP32/ESP32.ino) is a ESP32 program that controls the Dispenser with functions that Display Input, Send input through MQTT, Rotate Servo Motor.
 
 ## Directory Tree on Ubuntu Laptop
 ```
@@ -87,7 +85,5 @@ Run the following commands in different terminals
   tablenav
 ```
 
-
-  
-
-
+## Troubleshooting
+View Section 10.2 - Troubleshooting - Software of the final report to troubleshoot common problems faced when operating the system.
