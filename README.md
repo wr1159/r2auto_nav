@@ -95,13 +95,13 @@ Run the following commands in different terminals
 ```
   map2base
 ```
-### Control the turtlebot to store waypoints
-```
-  r2waypoints
-```
 ### Run Master Script
 ```
   tablenav
+```
+### Run Waypoint script instead of Master Script in case of new layout.
+```
+  r2waypoints
 ```
 
 ## Troubleshooting
