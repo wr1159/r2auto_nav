@@ -5,10 +5,10 @@ This is Group 11's repository for EG2310. Here we attempt to modify a TurtleBot3
 ## What's in this repo
 This repository contains all the code used for the mission in EG2310. The directory tree on the ubuntu laptop to control the TurtleBot and the RPi on the TurtleBot is also included below for reference. For this project, the RPi version used was RPi 3B+ and the microcontroller used for the dispenser was DOIT ESP32 Devkit V1 Board. The software, hardware, and steps required to replicate the working TurtleBot is explained in detail in the report. 
 
-Follow Section 8 - Assembly of the final report before proceeding with [starting the mission](#start-the-mission). 
+Follow Section 8 - Assembly of the [final report](EG2310_Group11_FinalReport.pdf) before proceeding with [starting the mission](#start-the-mission). 
 
 ## Important Files
-View section 8.4 - Algorithm Overview of the final report for a detailed breakdown for the program.
+View section 8.4 - Algorithm Overview of the [final report](EG2310_Group11_FinalReport.pdf) for a detailed breakdown for the program.
 
 * [r2table_nav.py](r2table_nav.py) is the master program that controls the TurtleBot during the delivery mission, completing the 4 Phases of Dispense, Delivery, Collection and Return.
 * [r2waypoints.py](r2waypoints.py) is the program that allows the users to set waypoints in case of an altered layout.
@@ -34,7 +34,6 @@ View section 8.4 - Algorithm Overview of the final report for a detailed breakdo
 * [ROS 2 Foxy](https://docs.ros.org/en/foxy/Installation.html) by ROS2 Team
 * [RPi.GPIO](https://pypi.org/project/RPi.GPIO/) by Ben Croston
 * [MQTT 2.0](https://mosquitto.org/download/) by Eclipse Foundation
-
 
 
 ## Directory Tree on Ubuntu Laptop
@@ -106,4 +105,4 @@ Run the following commands in different terminals
 ```
 
 ## Troubleshooting
-View Section 10.2 - Troubleshooting - Software of the final report to troubleshoot common problems faced when operating the system.
+View Section 10.2 - Troubleshooting - Software of the [final report](EG2310_Group11_FinalReport.pdf) to troubleshoot common problems faced when operating the system.
