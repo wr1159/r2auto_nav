@@ -10,12 +10,12 @@ Follow Section 8 - Assembly of the final report before proceeding with [starting
 ## Important Files
 View section 8.4 - Algorithm Overview of the final report for a detailed breakdown for the program.
 
-[r2table_nav](r2table_nav.py) is the master program that controls the TurtleBot during the delivery mission, completing the 4 Phases of Dispense, Delivery, Collection and Return.
-[r2waypoints](r2waypoints.py) is the program that allows the users to set waypoints in case of an altered layout.
-[waypoints.json](waypoints.json) is the json file that stores the waypoints for each table.
-[map2base.py](map2base.py) is a publisher program that publishes a Pose message to locate the TurtleBot relative to the starting position.
-[switchpub.py](switchpub.py) is a publisher program running on the RPi that publishes the state of the microswitch.
-[ESP32/ESP32.ino](ESP32/ESP32.ino) is a ESP32 program that controls the Dispenser with functions that Display Input, Send input through MQTT, Rotate Servo Motor.
+* [r2table_nav](r2table_nav.py) is the master program that controls the TurtleBot during the delivery mission, completing the 4 Phases of Dispense, Delivery, Collection and Return.
+* [r2waypoints](r2waypoints.py) is the program that allows the users to set waypoints in case of an altered layout.
+* [waypoints.json](waypoints.json) is the json file that stores the waypoints for each table.
+* [map2base.py](map2base.py) is a publisher program that publishes a Pose message to locate the TurtleBot relative to the starting position.
+* [switchpub.py](switchpub.py) is a publisher program running on the RPi that publishes the state of the microswitch.
+* [ESP32/ESP32.ino](ESP32/ESP32.ino) is a ESP32 program that controls the Dispenser with functions that Display Input, Send input through MQTT, Rotate Servo Motor.
 
 ## Directory Tree on Ubuntu Laptop
 ```
