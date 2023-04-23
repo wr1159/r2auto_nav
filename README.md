@@ -27,13 +27,13 @@ View section 8.4 - Algorithm Overview of the final report for a detailed breakdo
 * [PubSubClient](https://pubsubclient.knolleary.net/) by Nick O’Leary
 
 ### Remote Laptop
-* [ROS 2 Foxy](https://docs.ros.org/en/foxy/Installation.html)
-* [Paho MQTT Client](https://pypi.org/project/paho-mqtt/)
+* [ROS 2 Foxy](https://docs.ros.org/en/foxy/Installation.html) by ROS2 Team
+* [Paho MQTT Client](https://pypi.org/project/paho-mqtt/) by Eclipse Foundation
 
 ### RPi
-* [ROS 2 Foxy](https://docs.ros.org/en/foxy/Installation.html)
-* [RPi.GPIO](https://pypi.org/project/RPi.GPIO/)
-* [MQTT 2.0](https://mosquitto.org/download/)
+* [ROS 2 Foxy](https://docs.ros.org/en/foxy/Installation.html) by ROS2 Team
+* [RPi.GPIO](https://pypi.org/project/RPi.GPIO/) by Ben Croston
+* [MQTT 2.0](https://mosquitto.org/download/) by Eclipse Foundation
 
 
 
